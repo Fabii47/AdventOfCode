@@ -20,8 +20,8 @@ class Monkey:
             if nowSolving == 'A':
                 item //= 3
             else:
-                item //= utilitys.least_common_multiple(allTestNums)
-            
+                item %= lcm_testNums
+                pass
             self.inspectedItems += 1
             
             if item % self.test == 0:
@@ -30,10 +30,11 @@ class Monkey:
                 monkeys[self.nextNo].items.append(item)
             
 def main():
-    with open("example.txt", 'r') as f:
+    with open("input_11.txt", 'r') as f:
         global monkeys
         global nowSolving
         global allTestNums
+        global lcm_testNums
         allTestNums = []
         
         lines = f.readlines()
@@ -45,23 +46,36 @@ def main():
         printInspectionCount()
         
         # solve B 
+        print(f"\nnow Part B")
+        #lcm_testNums = utilitys.least_common_multiple(allTestNums)
+        lcm_testNums = 1
+        for num in allTestNums:
+            lcm_testNums *= num
         allTestNums = []
         nowSolving = 'B'
         monkeys = list(map(createMonkeys, splitMonkeys(lines)))
-        print(allTestNums)
-        throwAround(10_000)
+        print(lcm_testNums, "LCM of", allTestNums)
+        throwAround(10_000) # should return 2713310158
         printInspectionCount()
 
 def throwAround(rounds = 20):
     for round in range(rounds):
         for monkey in monkeys:
             monkey.throwItems()
-        utilitys.progressBar(round+1, rounds)
+        utilitys.progressBar(round + 1, rounds)
+
+        #if round == 1:
+        #    print("Round", round)
+        #    for monkey in monkeys:
+        #        print(monkey.inspectedItems)
     print()
 
 def printInspectionCount():
     inspectionCount = getInspectionCount()
+    print("Inspection Count:")
+    print(inspectionCount[0], inspectionCount[1])
     print(inspectionCount[0] * inspectionCount[1])
+    # 52166  52013 
 
 def getInspectionCount():
     inspectionCount = []

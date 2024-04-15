@@ -1,6 +1,10 @@
 import numpy as np
 import math
 
+
+def string_insert(string : str, char : chr, pos : int) -> str:
+    return string[:pos] + char + string[pos:]
+
 ################################################
 ###             Fancy Math Stuff             ###
 ################################################

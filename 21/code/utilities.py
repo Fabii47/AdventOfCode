@@ -11,9 +11,14 @@ def get(use_example : bool = False):
     else:           return get_input(day)
 
 def get_as_int_list(use_example : bool = False):
-    day = __caller_day__(inspect.stack()[1])
-    data = get_example(day) if use_example else get_input(day)
+    day  = __caller_day__(inspect.stack()[1])
+    data = __get_data__(day, use_example)
     return [int(x) for x in data.split("\n") if x != ""]
+
+def get_as_str_list(use_example : bool = False):
+    day  = __caller_day__(inspect.stack()[1])
+    data = __get_data__(day, use_example)
+    return [x for x in data.split("\n") if x != ""]
 
 def get_input(day : int):
     path = __build_path__("input", __input_filename__(day))
@@ -22,6 +27,9 @@ def get_input(day : int):
 def get_example(day : int):
     path = __build_path__("example", __example_filename__(day))
     return __read_file__(path)
+
+def __get_data__(day : int, use_example : bool = False):
+    return get_example(day) if use_example else get_input(day)
 
 def __input_filename__(day : int) -> str:
     return "input_" + str(day).zfill(2) + ".txt"
